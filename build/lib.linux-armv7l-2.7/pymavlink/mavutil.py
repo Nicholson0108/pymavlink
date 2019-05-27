@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 '''
 mavlink python utility functions
+mavlink通信用到的类和功能函数
 
 Copyright Andrew Tridgell 2011
 Released under GNU GPL version 3 or later
@@ -107,7 +108,7 @@ def set_dialect(dialect):
 set_dialect(os.environ['MAVLINK_DIALECT'])
 
 class mavfile(object):
-    '''a generic mavlink port'''
+    '''a generic mavlink port一个通用的mavlink端口'''
     def __init__(self, fd, address, source_system=255, source_component=0, notimestamps=False, input=True, use_native=default_native):
         global mavfile_global
         if input:
@@ -316,8 +317,8 @@ class mavfile(object):
                 if self.first_byte:
                     self.auto_mavlink_version(s)
 
-            # We always call parse_char even if the new string is empty, because the existing message buf might already have some valid packet
-            # we can extract
+            # We always call parse_char even if the new string is empty, because the existing message 
+			# buf might already have some valid packet we can extract
             msg = self.mav.parse_char(s)
             if msg:
                 if self.logfile and  msg.get_type() != 'BAD_DATA' :
@@ -917,7 +918,8 @@ class mavudp(mavfile):
             pass
 
     def recv_msg(self):
-        '''message receive routine for UDP link'''
+        '''message receive routine for UDP link
+		UDP的消息接收例程'''
         self.pre_message()
         s = self.recv()
         if len(s) > 0:
@@ -1206,6 +1208,7 @@ def mavlink_connection(device, baud=115200, source_system=255, source_component=
 
     if dialect is not None:
         set_dialect(dialect)
+	# startswith()检查字符串是否是以指定子字符串开头，如果是则返回 True，否则返回 False。
     if device.startswith('tcp:'):
         return mavtcp(device[4:], source_system=source_system, source_component=source_component, retries=retries, use_native=use_native)
     if device.startswith('tcpin:'):
